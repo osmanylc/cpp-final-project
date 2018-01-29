@@ -14,8 +14,9 @@ std::vector<std::string> wordList;
 void loadWords(){
   //make a list of valid words where the words are all strings of lowercase letters.
   //i.e. read in words from words.txt file and store them in wordList vector
-    std::cout << "Loading word list from file..." << std::endl;
-    std::ifstream wordsFile("words.txt");
+
+  std::cout << "Loading word list from file..." << std::endl;
+  std::ifstream wordsFile("words.txt");
 
   while (wordsFile) {
     std::string inputWord;
@@ -83,7 +84,6 @@ std::string getAvailLetters(std::vector<char> guessedLetters){
         {
             availLetters += c;
         }
-        
     }
   return "";
 }
@@ -112,8 +112,8 @@ char getRandomLetter(std::string wordToGuess, std::string availLetters){
             unguessed.push_back(c);
         }
     }
-    int index = rand() % unguessed.size();
-    return unguessed.at(index);
+    int index = rand() % unguessed.size()+1;  //EDIT: idk if inclusive of the maxval or not?
+    return unguessed.at(index);             //EDIT: should I return it as a character or as a string
 }
 
 int main(){
@@ -172,7 +172,7 @@ int main(){
 
   while(guessesLeft>0){
     std::cout << "You have " << guessesLeft << " guesses left." << std::endl;
-    std::cout << "Your currently guessed word is: " << getGuessedWord(secretWord, lettersGuessed);
+    std::cout << "Your currently guessed word is: " << getGuessedWord(secretWord, lettersGuessed) << std::endl;
     availLetters=getAvailLetters(lettersGuessed);
     std::cout << "Your available letters are: " << availLetters << std::endl;
 
@@ -191,28 +191,28 @@ int main(){
       }
       else{
         while(guessesLeft < 2 && guess=='#'){
-          std::cout << "You don't have enough guesses available to use a hint! Please enter in a guess: ";
+          std::cout << "You don't have enough guesses available to use a hint! Please enter in a guess: " << std::endl;
           std::cin >> guess;
         }
       }
     }
 
     else if(validLetters.find_first_of(guess)==std::string::npos){
-      std::cout << "That is not a valid letter.";
+      std::cout << "That is not a valid letter." << std::endl;
     }
 
     else if(std::find(lettersGuessed.begin(),lettersGuessed.end(),guess)!=lettersGuessed.end()){
-      std::cout << "You have already guessed that letter.";
+      std::cout << "You have already guessed that letter." << std::endl;
     }
 
     else if(secretWord.find_first_of(guess)!=std::string::npos){
       lettersGuessed.push_back(guess);
-      std::cout << "Good guess!";
+      std::cout << "Good guess!" << std::endl;
     }
 
     else if(secretWord.find_first_of(guess)==std::string::npos){
       lettersGuessed.push_back(guess);
-      std::cout << "Sorry, that letter is not in my word.";
+      std::cout << "Sorry, that letter is not in my word." << std::endl;
 
       if(vowels.find_first_of(guess)!=std::string::npos){
         guessesLeft-=2;
@@ -222,7 +222,7 @@ int main(){
       }
     }
 
-    std::cout << "Your current guessed word is: " << getGuessedWord(secretWord, lettersGuessed);
+    std::cout << "Your current guessed word is: " << getGuessedWord(secretWord, lettersGuessed) << std::endl;
 
     if(wordGuessed(secretWord, lettersGuessed)==true){
       break;
@@ -230,11 +230,11 @@ int main(){
   }
 
   if(wordGuessed(secretWord, lettersGuessed)==true){
-    std::cout << "Congrats! You won the game. Your score is: " << getScore(secretWord, guessesLeft);
+    std::cout << "Congrats! You won the game. Your score is: " << getScore(secretWord, guessesLeft) << std::endl;
   }
 
   else{
-    std::cout << "You lost. Better luck next time!";
+    std::cout << "You lost. Better luck next time!" << std::endl;
   }
 
   return 0;
