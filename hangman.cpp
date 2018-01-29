@@ -80,7 +80,7 @@ std::string getAvailLetters(std::vector<char> guessedLetters){
     std::string availLetters = "";
     std::string letters = "abcdefghijklmnopqrstuvwxyz";
     for(char& c : letters) {
-        if (std::find(guessedLetters.begin(), guessedLetters.end(), c) != guessedLetters.end())
+        if (std::find(guessedLetters.begin(), guessedLetters.end(), c) == guessedLetters.end())
         {
             availLetters += c;
         }
