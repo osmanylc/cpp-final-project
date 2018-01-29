@@ -77,12 +77,22 @@ std::string getGuessedWord(std::string wordToGuess, std::vector<char> guessedLet
 std::string getAvailLetters(std::vector<char> guessedLetters){
   //guessedLetters: vector of letters user has guessed so far
   //return string of letters that the user hasn't guessed yet
+<<<<<<< HEAD
   std::string availLetters = "";
   std::string letters = "abcdefghijklmnopqrstuvwxyz";
   for(char& c : letters) {
     if (std::find(guessedLetters.begin(), guessedLetters.end(), c) == guessedLetters.end())
     {
       availLetters += c;
+=======
+    std::string availLetters = "";
+    std::string letters = "abcdefghijklmnopqrstuvwxyz";
+    for(char& c : letters) {
+        if (std::find(guessedLetters.begin(), guessedLetters.end(), c) == guessedLetters.end())
+        {
+            availLetters += c;
+        }
+>>>>>>> 41bdfb9f11124818d29305d9bfd3a3d48fd92111
     }
   }
 
@@ -110,7 +120,7 @@ char getRandomLetter(std::string wordToGuess, std::string availLetters){
         ss << c;
         ss >> s;
         if (s.find_first_of(wordToGuess) != std::string::npos) {
-            unguessed.push_back(c);         //char or string?
+            unguessed.push_back(c);
         }
     }
     int index = rand() % unguessed.size()+1;  //EDIT: idk if inclusive of the maxval or not?
