@@ -109,11 +109,11 @@ char getRandomLetter(std::string wordToGuess, std::string availLetters){
         ss << c;
         ss >> s;
         if (s.find_first_of(wordToGuess) != std::string::npos) {
-            unguessed.push_back(c);         //char or string?
+            unguessed.push_back(c);
         }
     }
-    int index = rand() % unguessed.size();  //EDIT: idk if inclusive of the maxval or not?
-    return unguessed.at(index);             //EDIT: should I return it as a character or as a string
+    int index = rand() % unguessed.size();
+    return unguessed.at(index);
 }
 
 int main(){
