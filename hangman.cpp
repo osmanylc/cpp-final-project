@@ -1,26 +1,51 @@
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <vector>
 #include <math.h>
 #include <algorithm>
 #include <stdlib>
+#include <cstdlib>
+#include <ctime>
 
 std::vector<std::string> wordList;
 
 void loadWords(){
   //make a list of valid words where the words are all strings of lowercase letters.
   //i.e. read in words from words.txt file and store them in wordList vector
+  std::cout << "Loading word list from file..." << endl;
+  ifstream wordsFile("words.txt");
+
+  while (wordsFile) {
+    std::string inputWord;
+    wordFile >> inputWord;
+    wordList.push_back(inputWord);
+  }
 }
 
 std::string chooseWord(std::vector<std::string> words){
   //pick a random word from the wordlist returned from loadwords (i.e. from wordList) and return it
-  return "hi";
+  srand(static_cast<unsigned int>(time(0)));
+  int index = rand() % words.size();
+
+  return words[index];
 }
 
 bool wordGuessed(std::string wordToGuess, std::vector<char> guessedLetters){
   //wordToGuess: the word that the user is supposed to guess
   //guessedLetters: vector of letters user has guessed so far
   //return True if all letters in wordToGuess are also in guessedLetters
+  for(int i = 0; i < wordToGuess.size(); i++) {
+    bool isLetterGuessed = false;
+    for(int j = 0; j < guessedLetters.size(); j++) {
+      if (wordToGuess[i] == guessedLetters[j]) {
+        isLetterGuessed = true;
+      }
+    }
+    if (!isLetterGuessed) {
+      return false;
+    }
+  }
   return true;
 }
 
@@ -30,7 +55,21 @@ std::string getGuessedWord(std::string wordToGuess, std::vector<char> guessedLet
   //return: string representing the currently guessed word in format where any correctly guessed letters from the
   //  word to guess are in their correct places and any letters that haven't been guessed are represented by _
   //  e.g. if word is "hello" and "e" and "o" have been guessed, this function would return "_e__o"
-  return "";
+  std::string guessedWord = "";
+  for(int i = 0; i < wordToGuess.size(); i++) {
+    bool isLetterGuessed = false;
+    for(int j = 0; j < guessedLetters.size(); j++) {
+      if (wordToGuess[i] == guessedLetters[j]) {
+        isLetterGuessed = true;
+      }
+    }
+    if (isLetterGuessed) {
+      guessedWord = guessedWord + wordToGuess[i];
+    } else {
+      guessedWord = guessedWord + "_";
+    }
+  }
+  return guessedWord;
 }
 
 std::string getAvailLetters(std::vector<char> guessedLetters){
