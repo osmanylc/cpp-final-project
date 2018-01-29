@@ -77,22 +77,12 @@ std::string getGuessedWord(std::string wordToGuess, std::vector<char> guessedLet
 std::string getAvailLetters(std::vector<char> guessedLetters){
   //guessedLetters: vector of letters user has guessed so far
   //return string of letters that the user hasn't guessed yet
-<<<<<<< HEAD
   std::string availLetters = "";
   std::string letters = "abcdefghijklmnopqrstuvwxyz";
   for(char& c : letters) {
     if (std::find(guessedLetters.begin(), guessedLetters.end(), c) == guessedLetters.end())
     {
       availLetters += c;
-=======
-    std::string availLetters = "";
-    std::string letters = "abcdefghijklmnopqrstuvwxyz";
-    for(char& c : letters) {
-        if (std::find(guessedLetters.begin(), guessedLetters.end(), c) == guessedLetters.end())
-        {
-            availLetters += c;
-        }
->>>>>>> 41bdfb9f11124818d29305d9bfd3a3d48fd92111
     }
   }
 
@@ -238,6 +228,8 @@ int main(){
     if(wordGuessed(secretWord, lettersGuessed)==true){
       break;
     }
+
+    std::cout << std::endl;
   }
 
   if(wordGuessed(secretWord, lettersGuessed)==true){
