@@ -5,7 +5,6 @@
 #include <vector>
 #include <math.h>
 #include <algorithm>
-//#include <stdlib>
 #include <cstdlib>
 #include <ctime>
 
@@ -113,8 +112,8 @@ char getRandomLetter(std::string wordToGuess, std::string availLetters){
             unguessed.push_back(c);
         }
     }
-    int index = rand() % unguessed.size()+1;  //EDIT: idk if inclusive of the maxval or not?
-    return unguessed.at(index);             //EDIT: should I return it as a character or as a string
+    int index = rand() % unguessed.size()+1;
+    return unguessed.at(index);
 }
 
 int main(){
