@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <map>
 #include <vector>
 #include <math.h>
@@ -13,6 +14,7 @@ std::vector<std::string> wordList;
 void loadWords(){
   //make a list of valid words where the words are all strings of lowercase letters.
   //i.e. read in words from words.txt file and store them in wordList vector
+
   std::cout << "Loading word list from file..." << std::endl;
   std::ifstream wordsFile("words.txt");
 
@@ -75,6 +77,14 @@ std::string getGuessedWord(std::string wordToGuess, std::vector<char> guessedLet
 std::string getAvailLetters(std::vector<char> guessedLetters){
   //guessedLetters: vector of letters user has guessed so far
   //return string of letters that the user hasn't guessed yet
+    std::string availLetters = "";
+    std::string letters = "abcdefghijklmnopqrstuvwxyz";
+    for(char& c : letters) {
+        if (std::find(guessedLetters.begin(), guessedLetters.end(), c) != guessedLetters.end())
+        {
+            availLetters += c;
+        }
+    }
   return "";
 }
 
@@ -82,12 +92,28 @@ int getScore(std::string wordToGuess, int guessesLeft){
   //wordToGuess: the word that the user is supposed to guess
   //guessesLeft: number of guesses user has left
   //return score, where score = guessesLeft + # unique letters in wordToGuess + len of wordToGuess
-  return 0;
+    std::vector<char> unique_letters = std::vector<char>(wordToGuess.begin(), wordToGuess.end());
+    std::sort(unique_letters.begin(), unique_letters.end());
+    // returns an iterator to the element that follows the last element not removed
+    auto new_last = std::unique(unique_letters.begin(), unique_letters.end());
+    unique_letters.erase(new_last, unique_letters.end());
+    return guessesLeft + unique_letters.size() + wordToGuess.length();
 }
 
 char getRandomLetter(std::string wordToGuess, std::string availLetters){
   //return a random letter that is in wordToGuess that HASN'T been guessed yet
-  return ' ';
+    std::vector<char> unguessed;
+    std::stringstream ss;
+    for (char& c : availLetters) {
+        std::string s;
+        ss << c;
+        ss >> s;
+        if (s.find_first_of(wordToGuess) != std::string::npos) {
+            unguessed.push_back(c);         //char or string?
+        }
+    }
+    int index = rand() % unguessed.size()+1;  //EDIT: idk if inclusive of the maxval or not?
+    return unguessed.at(index);             //EDIT: should I return it as a character or as a string
 }
 
 int main(){
