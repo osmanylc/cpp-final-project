@@ -184,7 +184,6 @@ int main(){
           for(int i=0;i<secretWord.length();i++){
             lettersGuessed.push_back(secretWord[i]);
           }
-          guessesLeft--;
           break;
         }
         else{
