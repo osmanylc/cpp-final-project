@@ -77,22 +77,12 @@ std::string getGuessedWord(std::string wordToGuess, std::vector<char> guessedLet
 std::string getAvailLetters(std::vector<char> guessedLetters){
   //guessedLetters: vector of letters user has guessed so far
   //return string of letters that the user hasn't guessed yet
-<<<<<<< HEAD
   std::string availLetters = "";
   std::string letters = "abcdefghijklmnopqrstuvwxyz";
   for(char& c : letters) {
     if (std::find(guessedLetters.begin(), guessedLetters.end(), c) == guessedLetters.end())
     {
       availLetters += c;
-=======
-    std::string availLetters = "";
-    std::string letters = "abcdefghijklmnopqrstuvwxyz";
-    for(char& c : letters) {
-        if (std::find(guessedLetters.begin(), guessedLetters.end(), c) == guessedLetters.end())
-        {
-            availLetters += c;
-        }
->>>>>>> 41bdfb9f11124818d29305d9bfd3a3d48fd92111
     }
   }
 
@@ -188,50 +178,56 @@ int main(){
     std::cout << "Your available letters are: " << availLetters << std::endl;
 
     std::cin >> guess;
-
-    if(guess=='!'){ //end game. not mentioned in game rules but it's useful to be able to quit the game easily
-      break;
-    }
-
-    else if(guess=='#'){ //user wants to reveal a letter
-      if(guessesLeft > 2){
-        char letter = getRandomLetter(secretWord, availLetters);
-        lettersGuessed.push_back(letter);
-        guessesLeft-=2;
-        std::cout << "Letter revealed: " << letter << std::endl;
+      if (guess.length() > 1) {
+          if (guess == secretWord) {
+              break;
+          }
       }
-      else{
-        while(guessesLeft < 2 && guess=='#'){
-          std::cout << "You don't have enough guesses available to use a hint! Please enter in a guess: " << std::endl;
-          std::cin >> guess;
-        }
+      else {
+            if(guess=='!'){ //end game. not mentioned in game rules but it's useful to be able to quit the game easily
+              break;
+            }
+
+            else if(guess=='#'){ //user wants to reveal a letter
+              if(guessesLeft > 2){
+                char letter = getRandomLetter(secretWord, availLetters);
+                lettersGuessed.push_back(letter);
+                guessesLeft-=2;
+                std::cout << "Letter revealed: " << letter << std::endl;
+              }
+              else{
+                while(guessesLeft < 2 && guess=='#'){
+                  std::cout << "You don't have enough guesses available to use a hint! Please enter in a guess: " << std::endl;
+                  std::cin >> guess;
+                }
+              }
+            }
+
+            else if(validLetters.find_first_of(guess)==std::string::npos){
+              std::cout << "That is not a valid letter." << std::endl;
+            }
+
+            else if(std::find(lettersGuessed.begin(),lettersGuessed.end(),guess)!=lettersGuessed.end()){
+              std::cout << "You have already guessed that letter." << std::endl;
+            }
+
+            else if(secretWord.find_first_of(guess)!=std::string::npos){
+              lettersGuessed.push_back(guess);
+              std::cout << "Good guess!" << std::endl;
+            }
+
+            else if(secretWord.find_first_of(guess)==std::string::npos){
+              lettersGuessed.push_back(guess);
+              std::cout << "Sorry, that letter is not in my word." << std::endl;
+
+              if(vowels.find_first_of(guess)!=std::string::npos){
+                guessesLeft-=2;
+              }
+              else{
+                guessesLeft-=1;
+              }
+            }
       }
-    }
-
-    else if(validLetters.find_first_of(guess)==std::string::npos){
-      std::cout << "That is not a valid letter." << std::endl;
-    }
-
-    else if(std::find(lettersGuessed.begin(),lettersGuessed.end(),guess)!=lettersGuessed.end()){
-      std::cout << "You have already guessed that letter." << std::endl;
-    }
-
-    else if(secretWord.find_first_of(guess)!=std::string::npos){
-      lettersGuessed.push_back(guess);
-      std::cout << "Good guess!" << std::endl;
-    }
-
-    else if(secretWord.find_first_of(guess)==std::string::npos){
-      lettersGuessed.push_back(guess);
-      std::cout << "Sorry, that letter is not in my word." << std::endl;
-
-      if(vowels.find_first_of(guess)!=std::string::npos){
-        guessesLeft-=2;
-      }
-      else{
-        guessesLeft-=1;
-      }
-    }
 
     std::cout << "Your current guessed word is: " << getGuessedWord(secretWord, lettersGuessed) << std::endl;
 
